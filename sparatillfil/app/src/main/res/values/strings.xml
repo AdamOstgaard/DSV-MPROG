@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">sparatillfil</string>
+    <string name="highest_prime">Highest calculated prime:</string>
+</resources>
