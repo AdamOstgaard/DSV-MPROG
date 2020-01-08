@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Mail</string>
+    <string name="pick_attachment">Attach file</string>
+    <string name="send_email">Send</string>
+    <string name="mail_reciever">Reciever</string>
+    <string name="mail_subject">Subject</string>
+</resources>

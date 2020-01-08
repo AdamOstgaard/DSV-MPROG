@@ -81,10 +81,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void saveNumber(int number, Context context){
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(PRIME_FILE, Context.MODE_PRIVATE));
+        try(OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(PRIME_FILE, Context.MODE_PRIVATE))) {
             outputStreamWriter.write(String.valueOf(number));
-            outputStreamWriter.close();
         }
         catch (IOException e) {
             e.printStackTrace();
