@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Copy Paste</string>
+    <string name="enter_text_label">Text to copy</string>
+    <string name="copy_button_label">Copy</string>
+</resources>
