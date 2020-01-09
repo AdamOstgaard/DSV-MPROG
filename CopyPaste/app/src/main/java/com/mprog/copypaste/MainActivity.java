@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         copyToClipBoard("text", textView.getText().toString());
     }
 
-    public void copyToClipBoard(String label, String text){
+    private void copyToClipBoard(String label, String text){
         android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         android.content.ClipData clip = android.content.ClipData.newPlainText(label, text);
         clipboard.setPrimaryClip(clip);

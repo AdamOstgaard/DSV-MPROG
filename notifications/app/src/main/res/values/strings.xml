@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">notifications</string>
+    <string name="send_notification">Send notification</string>
+    <string name="send_toast">Show toast</string>
+    <string name="show_dialog">Show dialog</string>
+    <string name="notification_channel_name">Test Notifications</string>
+    <string name="close_button">Ok</string>
+</resources>
