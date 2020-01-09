@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Send Sms</string>
+    <string name="to_label">To:</string>
+    <string name="message_label">Message:</string>
+    <string name="send_button_text">Send</string>
+</resources>
