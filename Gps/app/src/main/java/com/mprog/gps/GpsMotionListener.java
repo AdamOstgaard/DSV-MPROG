@@ -1,4 +1,4 @@
-package com.mprog.irlightbike;
+package com.mprog.gps;
 
 
 import android.content.Context;
@@ -8,11 +8,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-public class IrlbMotionListener implements LocationListener {
+public class GpsMotionListener implements LocationListener {
     private static final String TAG = "MotionListener";
     private final Context context;
 
-    public IrlbMotionListener(Context context){
+    public GpsMotionListener(Context context) {
         this.context = context;
     }
 
@@ -30,11 +30,14 @@ public class IrlbMotionListener implements LocationListener {
     }
 
     @Override
-    public void onProviderDisabled(String provider) {}
+    public void onProviderDisabled(String provider) {
+    }
 
     @Override
-    public void onProviderEnabled(String provider) {}
+    public void onProviderEnabled(String provider) {
+    }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {}
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
 }

@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "test";
-    private static final int REQUEST_NOTIFICATION_PERMISSION = 534;
     private int notifactionId = 0;
 
     @Override
