@@ -29,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    /**
+     * Shows a sample toast with short duration
+     * @param view
+     */
     public void showToast(View view){
         CharSequence toastText = "Hi I'm a Toast!";
         int duration = Toast.LENGTH_SHORT;
@@ -37,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
     }
 
+    /**
+     * Shows a sample dialog with a button.
+     * @param view
+     */
     public void showDialog(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -51,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Sends a sample notification.
+     * @param view
+     */
     public void showNotification(View view){
         Intent fullScreenIntent = new Intent(this, MainActivity.class);
         PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(this, 0,
@@ -68,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
         notificationManager.notify(notifactionId++, builder.build());
     }
 
+    /**
+     * On newer devices a notification channel is needed, this function creates that channel.
+     */
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.notification_channel_name);

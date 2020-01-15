@@ -2,8 +2,8 @@ package com.mprog.youtube;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -26,12 +26,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(layout);
     }
 
+    /**
+     * Create buttons for all videos.
+     */
     private void populateVideos(){
         for (YoutubeVideo video : videos) {
             addVideoButton(video);
         }
     }
 
+    /**
+     * Add a new button that opens the provided YouTube video on press.
+     *
+     * @param video Corresponding youtube video.
+     */
     private void addVideoButton(YoutubeVideo video){
         final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(video.url));
 
@@ -49,11 +57,14 @@ public class MainActivity extends AppCompatActivity {
         layout.addView(videoButton);
     }
 
+    /**
+     * simple representation of a youtube video.
+     */
     private class YoutubeVideo {
-        protected String name;
-        protected String url;
+        private String name;
+        private String url;
 
-        protected YoutubeVideo(String name, String url){
+        private YoutubeVideo(String name, String url){
             this.name = name;
             this.url = url;
         }

@@ -17,7 +17,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    /**
+     * Starts a new activity with the url as data.
+     * @param view sender
+     */
     public void onGo(View view){
+        // Get the url
         TextView textView = findViewById(R.id.urlTextView);
 
         String url = textView.getText().toString();

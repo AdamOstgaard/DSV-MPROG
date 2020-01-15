@@ -21,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    /**
+     * Sends a Requests sms permissions and sends a sms.
+     * @param view sender
+     */
     public void sendSms(View view){
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.SEND_SMS)
@@ -31,21 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
         SmsManager smsManager = SmsManager.getDefault();
 
+        // get sms information.
         TextView toView = findViewById(R.id.toTextInput);
-        TextView messageView =  findViewById(R.id.messageTextInput);
+        TextView messageView = findViewById(R.id.messageTextInput);
 
         smsManager.sendTextMessage(toView.getText().toString(), null, messageView.getText().toString(), null, null);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_SMS_PERMISSION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                }
-            }
-        }
     }
 }

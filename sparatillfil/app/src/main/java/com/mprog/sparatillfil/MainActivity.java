@@ -28,16 +28,18 @@ public class MainActivity extends AppCompatActivity {
         start();
     }
 
+    /**
+     * Starts calculating and saving prime numbers on a new thread to allow ui to be updated.
+     */
     private void start(){
-        final Context ctx = getApplicationContext();
         new Thread(new Runnable() {
             public void run() {
-                int number = loadNumber(ctx);
+                int number = loadNumber();
 
                 while (true) {
                     number += 2;
                     if(isPrime(number)){
-                        saveNumber(number, ctx);
+                        saveNumber(number);
                         setDisplayedNumber(number);
                     }
                 }
@@ -45,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
-
+    /**
+     * Display the newly calculated number.
+     * @param number number to be displayed.
+     */
     private void setDisplayedNumber(final int number){
         final TextView view = findViewById(R.id.textView);
         view.post(new Runnable() {
@@ -56,11 +61,14 @@ public class MainActivity extends AppCompatActivity {
                   });
     }
 
-    private int loadNumber(Context ctx){
+    /**
+     * Loads the highest number from local storage.
+     * @return
+     */
+    private int loadNumber(){
         int number = 1;
 
-
-        try(InputStream inputStream = ctx.openFileInput(PRIME_FILE);
+        try(InputStream inputStream = openFileInput(PRIME_FILE);
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream)){
             try (BufferedReader reader = new BufferedReader(inputStreamReader)) {
                 String line = reader.readLine();
@@ -72,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 // Error occurred when opening raw file for reading.
             }
         } catch (FileNotFoundException e){
-            saveNumber(number, ctx);
+            saveNumber(number);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,8 +88,12 @@ public class MainActivity extends AppCompatActivity {
         return number;
     }
 
-    private void saveNumber(int number, Context context){
-        try(OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(PRIME_FILE, Context.MODE_PRIVATE))) {
+    /**
+     * Saves a number to local storage
+     * @param number number to be saved
+     */
+    private void saveNumber(int number){
+        try(OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput(PRIME_FILE, Context.MODE_PRIVATE))) {
             outputStreamWriter.write(String.valueOf(number));
         }
         catch (IOException e) {
@@ -89,6 +101,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Check if a number is prime
+     * @param candidate number to check
+     * @return true if number is prime otherwise false.
+     */
     private boolean isPrime(long candidate) {
         long sqrt = (long)Math.sqrt(candidate);
 

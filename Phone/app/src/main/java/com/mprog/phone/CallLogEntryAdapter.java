@@ -16,16 +16,28 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * A adapter for efficiently populating Recyclerviews with call information
+ */
 public class CallLogEntryAdapter extends RecyclerView.Adapter<CallLogEntryAdapter.ViewHolder> {
     private CallLogManager mCallLogEntries;
     private Context context;
     private AppCompatActivity activity;
 
+    /**
+     * Creates a new CallLogEntryAdapter instance
+     */
     public CallLogEntryAdapter(CallLogManager manager, AppCompatActivity act) {
         mCallLogEntries = manager;
         activity = act;
     }
 
+    /**
+     * Defines how an item in the view is created
+     * @param parent
+     * @param viewType
+     * @return
+     */
     public CallLogEntryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -38,13 +50,17 @@ public class CallLogEntryAdapter extends RecyclerView.Adapter<CallLogEntryAdapte
         return viewHolder;
     }
 
-    // Involves populating data into the item through holder
+    /**
+     * Populates an item in the list.
+     * @param viewHolder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(CallLogEntryAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
         CallLogEntry entry = mCallLogEntries.getCallLogEntry(position);
 
-        // Set item views based on your views and data model
+        // Set item views based on data model of callrecords.
         TextView numberView = viewHolder.nameTextView;
         numberView.setText(entry.getNumber());
         TextView dateView = viewHolder.dateView;
@@ -54,14 +70,17 @@ public class CallLogEntryAdapter extends RecyclerView.Adapter<CallLogEntryAdapte
         button.setText("Call");
     }
 
-    // Returns the total count of items in the list
+    /**
+     * Returns the total count of items in the underlying data.
+     */
     @Override
     public int getItemCount() {
         return mCallLogEntries.getCount();
     }
 
-    // Provide a direct reference to each of the views within a data item
-    // Used to cache the views within the item layout for fast access
+    /**
+     * Defines a item in the recycle view.
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
@@ -69,8 +88,10 @@ public class CallLogEntryAdapter extends RecyclerView.Adapter<CallLogEntryAdapte
         public Button callButton;
         public TextView dateView;
 
-        // We also create a constructor that accepts the entire item row
-        // and does the view lookups to find each subview
+        /**
+         * Creates a new ViewHolder instance.
+         * @param itemView
+         */
         public ViewHolder(View itemView) {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
@@ -81,6 +102,10 @@ public class CallLogEntryAdapter extends RecyclerView.Adapter<CallLogEntryAdapte
             dateView = itemView.findViewById(R.id.caller_time);
 
             callButton.setOnClickListener(new View.OnClickListener() {
+                /**
+                 * Call the clicked number.
+                 * @param v
+                 */
                 public void onClick(View v) {
                     if (ContextCompat.checkSelfPermission(activity,
                             Manifest.permission.CALL_PHONE)
@@ -90,7 +115,9 @@ public class CallLogEntryAdapter extends RecyclerView.Adapter<CallLogEntryAdapte
                                 MainActivity.REQUEST_CALL_PERMISSION);
                         return;
                     }
+
                     int position = getAdapterPosition(); // gets item position
+
                     if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
                         CallLogEntry call = mCallLogEntries.getCallLogEntry(position);
 

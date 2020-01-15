@@ -12,10 +12,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A simple chgat client that connects to
+ */
 public class MainActivity extends AppCompatActivity implements TcpMessageListener {
     final private List<String> messages;
     private TcpClient connection;
     private ArrayAdapter<String> adapter;
+    private static final String SERVER_IP = "atlas.dsv.su.se";
 
     public MainActivity() {
         this.messages = new ArrayList<>();
@@ -28,7 +32,8 @@ public class MainActivity extends AppCompatActivity implements TcpMessageListene
 
         ListView chatHistory = findViewById(R.id.chatHistory);
 
-        connection = new TcpClient("atlas.dsv.su.se", 9494);
+        // create connection
+        connection = new TcpClient(SERVER_IP, 9494);
 
         try {
             connection.Connect();
@@ -38,11 +43,16 @@ public class MainActivity extends AppCompatActivity implements TcpMessageListene
             e.printStackTrace();
         }
 
-        adapter = new ArrayAdapter(this, R.layout.listview_item, R.id.textView, messages);
+        // create adapter for message log.
+        adapter = new ArrayAdapter<>(this, R.layout.listview_item, R.id.textView, messages);
 
         chatHistory.setAdapter(adapter);
     }
 
+    /**
+     * Handle click and send message
+     * @param view
+     */
     public void onSendClick(View view){
         TextView textView = findViewById(R.id.editText);
 
@@ -51,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements TcpMessageListene
         connection.sendMessage(text);
     }
 
+    /**
+     * Handles incoming messages from the server.
+     * @param message incoming message
+     */
     @Override
     public void handleMessage(final String message) {
         runOnUiThread(new Runnable() {

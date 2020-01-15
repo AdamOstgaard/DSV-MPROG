@@ -23,7 +23,6 @@ import java.io.OutputStream;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
     private static final int PICKFILE_RESULT_CODE = 1;
     private Uri attachment = null;
 
@@ -33,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    /**
+     * Handle filepicker results. sets attachment if success.
+     * @param requestCode Unique identifier for the request.
+     * @param resultCode success code for the request.
+     * @param data the data returned by the intent.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -47,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Open file pickewr for attachments.
+     * @param view
+     */
     public void attachFIle (View view){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*");
@@ -58,24 +67,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Starts an email intent with thew entered information.
+     * @param view sending button
+     */
     public void sendMail(View view){
         Context context = getApplicationContext();
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         emailIntent.setType("message/rfc822");
 
+        // Get inputs
         TextView receiverView = findViewById(R.id.reciever);
         TextView subjectView = findViewById(R.id.subject);
         TextView messageView = findViewById(R.id.messageView);
 
+        // Set intent extras
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {receiverView.getText().toString()}); // recipients
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectView.getText().toString());
         emailIntent.putExtra(Intent.EXTRA_TEXT, messageView.getText().toString());
         emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         emailIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
+        // Attach file if one was selected
         if(attachment != null){
             try {
-                Uri attachmentUri = createTempAttachmentUri(context, attachment);
+                Uri attachmentUri = createTempAttachmentUri(attachment);
                 // emailIntent.setData(attachmentUri);
                 emailIntent.putExtra(Intent.EXTRA_STREAM, attachmentUri);
 
@@ -93,8 +109,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(emailIntent);
     }
 
-    public Uri createTempAttachmentUri(Context context, Uri source) throws IOException {
-        File tempPath = new File(context.getFilesDir(), "temp");
+    /**
+     * Because file picker doesn't allow permission to "reshare" Uris we have to stoore the attachment temporary and create a new Uri to it.
+     * @param source File to share.
+     * @return A new Uri that can be shared.
+     * @throws IOException thrown if the temp file can't be created.
+     */
+    public Uri createTempAttachmentUri(Uri source) throws IOException {
+        File tempPath = new File(getFilesDir(), "temp");
 
         String name = source.getPath();
         int cut = name.lastIndexOf('/');
@@ -103,9 +125,15 @@ public class MainActivity extends AppCompatActivity {
 
         copy(source, tempFile);
 
-        return FileProvider.getUriForFile(context, "com.mprog.fileprovider", tempFile);
+        return FileProvider.getUriForFile(this, "com.mprog.fileprovider", tempFile);
     }
 
+    /**
+     * Copy a file
+     * @param src source file
+     * @param dst destination file
+     * @throws IOException Thrown if the new file can't be created or the dource file can't be read.
+     */
     public void copy(Uri src, File dst) throws IOException {
         try (InputStream in = getContentResolver().openInputStream(src)) {
             dst.getParentFile().mkdirs();

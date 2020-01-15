@@ -3,6 +3,7 @@ package com.mprog.phone;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -20,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Initializes the app components. this is called after permission is granted to the phone.
+     */
     private void startApp() {
         setContentView(R.layout.activity_main);
 
@@ -30,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
         rvCallLog.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    /**
+     * Handles permission results. Starts the app if permission to phone is granted otherwise show a Toast.
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -38,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startApp();
+                } else {
+                    Toast.makeText(this, "This app needs Phone permissions!", Toast.LENGTH_LONG);
                 }
             }
         }

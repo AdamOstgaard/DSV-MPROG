@@ -7,6 +7,9 @@ import android.provider.CallLog;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Wrapper class of the call logs for easier use together with RecycleViewAdapter.
+ */
 public class CallLogManager {
     private Cursor cursor;
 
@@ -15,6 +18,11 @@ public class CallLogManager {
                 null, null, null);
     }
 
+    /**
+     * Get an item at the specified position in the call logs.
+     * @param position pos of the item to get.
+     * @return A CallLogEntry representation of the item at the specified position.
+     */
     public CallLogEntry getCallLogEntry(int position) {
         cursor.moveToPosition(position);
 
@@ -26,11 +34,16 @@ public class CallLogManager {
 
         Date callDayTime = new Date(Long.valueOf(date));
 
+        // Format date string to be human readable.
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         return new CallLogEntry(number, sdf.format(callDayTime));
     }
 
+    /**
+     * gets the element count of the call logs
+     * @return total count of elements.
+     */
     public int getCount() {
         return cursor.getCount();
     }

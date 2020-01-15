@@ -1,4 +1,4 @@
-package com.mprog.irlightbike;
+package com.mprog.locationshare;
 
 import android.content.Context;
 

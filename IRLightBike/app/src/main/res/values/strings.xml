@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">IRLightBike</string>
+    <string name="app_name">Location Sharing</string>
+    <string name="title_activity_game_map">Map</string>
+    <string name="display_name">Display Name</string>
+    <string name="start_button">Start Sharing!</string>
+    <string name="welcome_text">Welcome to location sharing!</string>
 </resources>

@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+    private String currentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,17 +27,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    /**
+     * Handle capture button clicks by dispatching take picture intent.
+     * @param view sender
+     */
     public void captureButtonOnClick(View view){
         dispatchTakePictureIntent();
     }
 
     static final int REQUEST_TAKE_PHOTO = 1;
 
+    /**
+     * Start a camera activity by dispatching an Intent and create the file for the image.
+     */
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
+            // Create a file to save the photo to
             File photoFile = null;
             try {
                 photoFile = createImageFile();
@@ -54,17 +62,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    String currentPhotoPath;
-
+    /**
+     * Creates a file for the photo to be saved with a unique filename from the current time.
+     * @return Returns the file to save the photo in.
+     * @throws IOException
+     */
     private File createImageFile() throws IOException {
-        // Create an image file name
+        // Create an unique image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
+                imageFileName,
+                ".jpg",
+                storageDir
         );
 
         // Save a file: path for use with ACTION_VIEW intents
@@ -72,6 +83,12 @@ public class MainActivity extends AppCompatActivity {
         return image;
     }
 
+    /**
+     * Handle result of photo Intent to save the photo
+     * @param requestCode Unique identifier for the intent.
+     * @param resultCode result of the Intent.
+     * @param data resulting data of the activity.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -80,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Show the taken picture in the preview View
+     */
     private void setPreview() {
         ImageView preview = findViewById(R.id.preview);
         // Get the dimensions of the View

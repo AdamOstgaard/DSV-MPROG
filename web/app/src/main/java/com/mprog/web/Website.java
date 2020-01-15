@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+/**
+ * Displays a web page in a web view.
+ */
 public class Website extends AppCompatActivity {
 
     @Override

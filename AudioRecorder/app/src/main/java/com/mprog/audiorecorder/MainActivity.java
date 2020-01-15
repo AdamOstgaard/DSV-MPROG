@@ -32,18 +32,29 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean permissionToRecordAccepted = false;
 
+    /**
+     * Handles the permissions results.
+     * @param requestCode identifier for the permission request.
+     * @param permissions permission(s) requested
+     * @param grantResults An array of result codes determining if the permissions were granted or not.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode){
             case REQUEST_RECORD_AUDIO_PERMISSION:
                 permissionToRecordAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                // start recording if permission was granted.
                 startRecording();
                 break;
         }
         if (!permissionToRecordAccepted) finish();
     }
 
+    /**
+     * Initialize components for recording.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
         playButton = findViewById(R.id.playButton);
     }
 
+    /**
+     * Handle click for recording button.
+     * @param view sender
+     */
     public void recordButtonOnClick(View view){
         if(isRecording){
             stopRecording();
@@ -65,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
         startRecording();
     }
 
+    /**
+     * Start playback of recording.
+     * @param view sender
+     */
     public void playButtonClick(View view){
         if(isPlaying){
             stopPlaying();
@@ -74,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
         startPlaying();
     }
 
+    /**
+     * Stops the recording
+     */
     private void stopRecording(){
         isRecording = false;
         recorder.stop();
@@ -82,14 +104,23 @@ public class MainActivity extends AppCompatActivity {
         setRecordButtonText();
     }
 
+    /**
+     * Sets the text of the recording toggle button to the correct state.
+     */
     private void setRecordButtonText(){
         recordButton.setText(isRecording ? R.string.click_to_stop_record : R.string.click_to_record);
     }
 
+    /**
+     * Sets the text of the playback toggle button to the correct state.
+     */
     private void setPlayButtonText(){
         playButton.setText(isPlaying ? R.string.click_to_stop_playback : R.string.click_to_play);
     }
 
+    /**
+     * Starts a new recording if permission is accepted otherwise ask for permission.
+     */
     private void startRecording(){
         if(!permissionToRecordAccepted) {
             ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
@@ -114,6 +145,9 @@ public class MainActivity extends AppCompatActivity {
         setRecordButtonText();
     }
 
+    /**
+     * Starts playback of latest recording.
+     */
     private void startPlaying() {
         player = new MediaPlayer();
 
@@ -129,6 +163,9 @@ public class MainActivity extends AppCompatActivity {
         setPlayButtonText();
     }
 
+    /**
+     * Stops playback of latest recording.
+     */
     private void stopPlaying() {
         player.release();
         player = null;

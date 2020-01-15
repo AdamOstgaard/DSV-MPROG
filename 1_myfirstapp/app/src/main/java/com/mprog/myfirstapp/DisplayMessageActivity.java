@@ -11,7 +11,14 @@ public class DisplayMessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_message);
+        sendMessage();
 
+    }
+
+    /**
+     * Sends a message through an intent to the show message activity.
+     */
+    private void sendMessage(){
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 

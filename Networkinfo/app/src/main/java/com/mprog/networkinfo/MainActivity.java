@@ -2,11 +2,9 @@ package com.mprog.networkinfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,10 +13,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setNetworkInforText();
+        setNetworkInfoText();
     }
 
-    private void setNetworkInforText(){
+    /**
+     * Populates the textview with network information.
+     */
+    private void setNetworkInfoText(){
         TextView text = findViewById(R.id.networkInfo);
 
         NetworkInfo networkInfo = getNetworkInfo();
@@ -32,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Extracts the connection type from NetworkInfo object.
+     * @param info Object containing network information
+     * @return a string representation of the connection type.
+     */
     private String getNetworkType(NetworkInfo info){
         switch (info.getType()) {
             case ConnectivityManager.TYPE_WIFI:
@@ -42,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
         return "unknown";
     }
 
+    /**
+     * Get information about the curtrent network of the device.
+     * @return
+     */
     private NetworkInfo getNetworkInfo(){
         ConnectivityManager cm = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
 

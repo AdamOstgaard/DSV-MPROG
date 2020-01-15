@@ -20,6 +20,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    /**
+     * Gets the uri of newly recorded video from activity result.
+     * @param requestCode
+     * @param resultCode
+     * @param intent
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -29,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Start a intent to record a video using a camera activity.
+     * @param view
+     */
     public void onClickRecord(View view){
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
@@ -36,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Playback the latest video in a VideoPlayback activity.
+     * @param view
+     */
     public void onClickPlayBack(View view){
         if(videoUri == null){
             return;
